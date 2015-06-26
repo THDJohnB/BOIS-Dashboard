@@ -1,0 +1,36 @@
+<link rel="import" href="score-visualization.html">
+<link rel="import" href="../bower_components/google-chart/google-chart.html">
+<link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<dom-module id="division-tabs">
+  <style >
+</style>
+  <template  attributes="selected">
+     <paper-tabs class="bottom" style="width: 600px" selected="{{selected}}">
+	   <paper-tab>
+	     <score-visualization name="Automation" image="../images/automation.svg" style="color:red;"></score-visualization>
+	   </paper-tab>
+	   <paper-tab>
+	     <score-visualization name="Deployment" image="../images/deploy.svg" style="color:green;"></score-visualization>
+	   </paper-tab>
+	   <paper-tab>
+	     <score-visualization name="Quality" image="../images/checkedBox.svg" style="color:orange;"></score-visualization>
+	   </paper-tab>
+	</paper-tabs>
+	
+	<iron-pages selected="{{selected}}">
+  	  <div><paper-material><google-chart>
+
+</google-chart></paper-material></div>
+  	  <div><paper-material><chart-bar></chart-bar></paper-material></div>
+  	  <div><paper-material>Quality Page</paper-material></div>
+	</iron-pages>
+  </template>
+</dom-module>
+<script>
+  (function() {
+    Polymer({
+      is: 'division-tabs',
+      selected: 1
+    });
+  })();
+</script>

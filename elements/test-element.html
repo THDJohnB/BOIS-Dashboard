@@ -1,0 +1,21 @@
+
+              
+<dom-module id="test-element">
+  <template attributes="division color">
+    <style>
+    </style>
+    <a data-route={{division}} href="/">
+                <iron-icon src={{getSVG(division)}}></iron-icon>
+                <span>{{division}}</span>
+              </a>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'test-element',
+    getSVG: function(division){
+      return "../images/"+division+".svg";
+    }
+  });
+</script>
+              

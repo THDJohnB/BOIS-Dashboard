@@ -1,0 +1,36 @@
+{
+  "name": "polymer-il-charts",
+  "version": "0.0.6",
+  "authors": [
+    "Dominic Böttger <dominic.boettger@inspirationlabs.com>"
+  ],
+  "description": "Very flexible polymer charts library",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "d3",
+    "c3",
+    "charts"
+  ],
+  "main": "polymer-il-charts.html",
+  "license": "MIT",
+  "homepage": "https://github.com/INSPIRATIONlabs/polymer-il-charts/",
+  "ignore": [
+    "/.*",
+    "/tests/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.2",
+    "d3-elements": "https://github.com/PolymerLabs/d3-elements.git",
+    "c3": "~0.4.9"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^2.0.5"
+  },
+  "resolutions": {
+    "core-component-page": "^0.5",
+    "polymer": "^0.5",
+    "webcomponentsjs": "^0.5"
+  }
+}

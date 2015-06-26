@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<polymer-element name="division-service" attributes="divisions">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    <iron-ajax id="ajax"
+      auto
+      url="../api/divisions.json"
+      on-core-response="{{divisionsLoaded}}"
+      handleAs="json">
+    </core-ajax>
+  </template>
+  <script>
+  Polymer('division-service', {
+    created: function() {
+      this.divisions = [];
+    },
+    divisionsLoaded: function() {
+      // Make a copy of the loaded data
+      this.divisions = this.$.ajax.response.slice(0);
+    },
+  });
+  </script>
+</polymer-element>

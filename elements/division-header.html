@@ -1,0 +1,30 @@
+<dom-module id="division-header">
+  <template attributes="division image color">
+    <style>
+      span.largeDivision{
+        font-size:30px;
+        padding:5px;
+      }
+      iron-icon.paddedIcon{
+        margin-left:10px;
+        margin:10px;
+      }
+    </style>
+    <div flex layout horizontal>
+      <iron-icon id={{division}} class="paddedIcon" src={{image}}></iron-icon><span class="largeDivision">{{division}}</span></br>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'division-header',
+      ready: function() {
+    	  //Set the color of the iron-icons background to the value passed in
+    	  this.children[1].children[0].style.backgroundColor=this.color;
+    	  
+    	  //Sets the size of the iron-icon
+    	  this.children[1].children[0].style.height = "50px";
+    	  this.children[1].children[0].style.width = "50px";
+        }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,27 @@
+<link rel="import" href="division-card.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="division-card-list">
+  <template>
+      <template id="divisionCards" is="dom-repeat" items="{{cards}}" as="card">
+        <division-card division={{card.division}} image={{getSVG(card.division)}} color={{card.color}}></division-card>
+      </template>
+      <iron-ajax  id="ajax" auto  url="/config/divisions.json" handleAs="json" on-response="handleResponse"></iron-ajax>
+  </template>
+</dom-module>
+<script>
+    Polymer({
+      is: 'division-card-list',
+      properties: {
+        cards: {
+          type: Array,
+          notify: true,
+        }
+      },
+      getSVG: function(division){
+        return "../images/"+division+".svg";
+      },
+      handleResponse : function(e){
+          this.cards = e.detail.response;
+      }
+    });
+</script>

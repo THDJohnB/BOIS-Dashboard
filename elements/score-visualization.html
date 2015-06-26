@@ -1,0 +1,17 @@
+<dom-module id="score-visualization">
+	<template attributes="name value image">
+   		<iron-icon src="{{image}}" style="{{value}}"></iron-icon><span style="font-size:20px">{{name}}</span>
+	</template>
+</dom-module>
+<script>
+  (function() {
+    Polymer({
+      is: 'score-visualization',
+      ready: function() {
+    	  //Sets the size of the iron-icon
+    	  this.children[0].style.height = "30px";
+    	  this.children[0].style.width = "30px";
+        }
+    });
+  })();
+</script>

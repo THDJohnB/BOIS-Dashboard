@@ -1,0 +1,10 @@
+[
+  {"division":"Asset Protection", "color":"blue"},
+  {"division":"Building Services", "color":"purple"},
+  {"division":"Customer Service", "color":"green"},
+  {"division":"Repair", "color":"yellow"},
+  {"division":"Reverse Logistics", "color":"orange"},
+  {"division":"Store Device Platform", "color":"pink"},
+  {"division":"Store Inventory", "color":"red"},
+  {"division":"Store Merchandising", "color":"teal"}
+]

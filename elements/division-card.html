@@ -1,0 +1,56 @@
+<link rel="import" href="score-visualization.html">
+<link rel="import" href="division-header.html">
+<dom-module id="division-card">
+  <!-- TODO Add background color for image -->
+  <template attributes="division image color">
+    <style>
+      .width400{width:400px;}
+      
+      /*Allow multiple score-visualizations to be displayed on the same page*/
+      .displayInline{display: inline-block;} 
+      
+      /*Prevent links to division-pages from displaying in altered colors*/
+      a, a:visited, a:hover, a:active {
+  	    color: inherit;
+	  }
+    </style>
+    
+    <a href={{division}} style="text-decoration: none"> 
+      <paper-material class="displayInline width400">
+      
+        <division-header division={{division}} image={{image}} color={{color}}></division-header>
+        
+        
+        <!-- TODO Titles and styles need to be factored out -->
+		<score-visualization 
+		  title="1-Click Deploy Enabled: 3/13&#013;Continuous Integration Enabled: 8/13" 
+		  name="Automation" 
+		  image="../images/automation.svg" 
+		  style="color:red;">
+		</score-visualization>
+		
+		<score-visualization 
+		  title="When we find data to put here tell John" 
+		  name="Deployment" 
+		  image="../images/deploy.svg" 
+		  style="color:green;">
+		</score-visualization>
+		
+		<score-visualization 
+		  title="Mean Test Coverage: 20%&#013;Successful tests: 100%&#013;Mean Squale Score: B&#013;Complexity: 100?" 
+		  name="Quality" 
+		  image="../images/checkedBox.svg" 
+		  style="color:orange;">
+		</score-visualization>
+		
+	  </paper-material>
+	</a>
+  </template>
+</dom-module>
+<script>
+  (function() {
+    Polymer({
+      is: 'division-card'
+    });
+  })();
+</script>
