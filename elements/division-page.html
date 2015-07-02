@@ -1,23 +1,47 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+
 <link rel="import" href="division-header.html">
 <link rel="import" href="division-tabs.html">
 
 <dom-module id="division-page">
-  <template attributes="division color">
+  <template attributes="division color selected">
+  
     <style>
       .displayInline{display: inline-block;}
+      .topPadded{margin-top:10px;}
+      .rightAlligned{
+  		width: 6%; 
+  		float: right;
+	  }
     </style>
-    <paper-material class="displayInline" style="width:100%">
-      <division-header division={{division}} color={{color}} image={{getSVG(division)}} ></division-header>
-	  <division-tabs selected="0"></division-tabs>
+    
+    <!-- TODO Style the width on this paper-material dynamicly -->
+    <paper-material class="displayInline" style="width:815px">
+    
+      <division-header id="pageHeader" division={{division}} color={{color}} image={{getSVG(division)}}>
+        <!-- Add a home icon into the division header only for the division-page -->
+        <a href="/" style="text-decoration: none">
+          <paper-icon-button icon="home"></paper-icon-button>
+		</a>
+	  </division-header>
+	  
+	  <division-tabs selected={{selected}} division={{division}}></division-tabs>
+	  
 	</paper-material>
+	
   </template>
 </dom-module>
 <script>
   Polymer({
     is: 'division-page',
     getSVG: function(division){
-      return "../images/"+division+".svg";
-    }
+    	//set the color for the image in division-headers icon
+    	var page=window.document.getElementById("pageHeader");
+    	if(page!=null){
+    		page.children[1].children[0].style.backgroundColor=this.color;
+    	}
+		
+    	//get the image for the icon in division-header to display
+    	return "../images/"+division+".svg";
+    }    
   });
 </script>

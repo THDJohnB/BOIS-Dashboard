@@ -1,13 +1,18 @@
 <link rel="import" href="score-visualization.html">
 <link rel="import" href="../bower_components/google-chart/google-chart.html">
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<link rel="import" href="pie-chart.html">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon-chart.js"></script>
+<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
 <dom-module id="division-tabs">
-  <style >
-</style>
-  <template  attributes="selected">
-     <paper-tabs class="bottom" style="width: 600px" selected="{{selected}}">
+  <template attributes="selected">
+  
+     <paper-tabs selected="{{selected}}">
 	   <paper-tab>
-	     <score-visualization name="Automation" image="../images/automation.svg" style="color:red;"></score-visualization>
+	     <score-visualization on-click="drawGraphs" name="Automation" image="../images/automation.svg" style="color:red;"></score-visualization>
 	   </paper-tab>
 	   <paper-tab>
 	     <score-visualization name="Deployment" image="../images/deploy.svg" style="color:green;"></score-visualization>
@@ -17,20 +22,106 @@
 	   </paper-tab>
 	</paper-tabs>
 	
-	<iron-pages selected="{{selected}}">
-  	  <div><paper-material><google-chart>
-
-</google-chart></paper-material></div>
-  	  <div><paper-material><chart-bar></chart-bar></paper-material></div>
-  	  <div><paper-material>Quality Page</paper-material></div>
+	<!-- 
+	     Here I've tried a few charts. Excluded is the HighCharts and C3 attempts. HighCharts has been excluded due to licensing
+	     issues. C3 has been excluded due to compatibility trouble.
+	     However, both can still be found in bower_components.
+    -->
+	<iron-pages selected="{{validate(selected)}}">
+  	  <div>
+  	    <paper-material id="chartJsContainer">
+  	      <p>Click the automation tab again to draw a chartJS graph</p>
+  	      <canvas id="chartJsCanvas"></canvas>
+  	    </paper-material>
+  	  </div>
+  	  
+  	  <div>
+  	    <paper-material>
+  	      <p>This is a google and pubnub chart attempt.I've seen samples of both, perhaps I'm missing something simple.</p>
+  	  	  <google-chart
+		    type='pie'
+		    options='{"title": "Distribution of days in 2001Q1"}'
+		    cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]'
+		    rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
+		  </google-chart>
+		  <div id="chart"></div>
+        </paper-material>
+      </div>
+      
+  	  <div>
+  	    <paper-material>
+  	      <p>This is a D3 chart attempt.</p>
+  	      <pie-chart url="data.csv"></pie-chart>
+  	    </paper-material>
+  	  </div>
 	</iron-pages>
+	
   </template>
 </dom-module>
 <script>
-  (function() {
-    Polymer({
-      is: 'division-tabs',
-      selected: 1
-    });
-  })();
+   Polymer({
+     is: 'division-tabs',
+     drawGraphs: function(){
+    	//This is used in attempt to avoid issues of graphs not drawing if they aren't on the starting screen
+    	
+    	//Destroy the old canvas
+    	$('#chartJsCanvas').remove();
+
+ 	   	//Re-create the new canvas inside of a container
+ 	   	$('#chartJsContainer').append('<canvas id="chartJsCanvas"><canvas>');
+ 	   	
+ 	   	//Get the new canvas. If it exists draw the graph onto it
+ 	   	var canvas = document.querySelector('#chartJsCanvas');
+	   	if(canvas!=null){
+	   	  new Chart(canvas.getContext('2d')).Line(lineChartData, {responsive: true});
+	   	}
+     },
+     validate: function(selected){
+       //This is an attempt to get the graphs to draw when a tab containing one is selected. It does not yet work.
+       if(selected==0){
+    	   this.drawGraphs();//A page with a chartJS graph has been selected, draw the chartJS graph for the page
+       }
+     // document.querySelector("#google-chart").drawChart();
+   	  //Sets the page to the newly selected tab
+   	  return selected;
+     } 	  
+   });
+   
+   //Attempt to draw a PubNub chart
+   eon.chart({
+    channel: "c3-spline", // the pubnub channel for real time data
+    generate: {           // c3 chart object
+      bindto: '#chart'
+    },         
+    flow: {},             // flow configuration
+    limit: 10             // the size of your data buffer
+  });
+   
+   //This is temporarily present for testing chartJS
+   var randomScalingFactor= function(){ return Math.round(Math.random()*100)};
+   var lineChartData= {
+   	labels : ["January","February","March","April","May","June","July"],
+   	datasets : [
+   		{
+   			label: "My First dataset",
+   			fillColor : "rgba(220,220,220,0.2)",
+   			strokeColor : "rgba(220,220,220,1)",
+   			pointColor : "rgba(220,220,220,1)",
+   			pointStrokeColor : "#fff",
+   			pointHighlightFill : "#fff",
+   			pointHighlightStroke : "rgba(220,220,220,1)",
+   			data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+   		},
+   		{
+   			label: "My Second dataset",
+   			fillColor : "rgba(151,187,205,0.2)",
+   			strokeColor : "rgba(151,187,205,1)",
+   			pointColor : "rgba(151,187,205,1)",
+   			pointStrokeColor : "#fff",
+   			pointHighlightFill : "#fff",
+   			pointHighlightStroke : "rgba(151,187,205,1)",
+   			data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+   		}
+   	  ]
+   };
 </script>

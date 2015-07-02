@@ -1,10 +1,10 @@
 <link rel="import" href="score-visualization.html">
 <link rel="import" href="division-header.html">
 <dom-module id="division-card">
-  <!-- TODO Add background color for image -->
   <template attributes="division image color">
     <style>
       .width400{width:400px;}
+      .hieght200{hieght:200px;}
       
       /*Allow multiple score-visualizations to be displayed on the same page*/
       .displayInline{display: inline-block;} 
@@ -13,44 +13,80 @@
       a, a:visited, a:hover, a:active {
   	    color: inherit;
 	  }
+	  
+	  /* Keeps each of the cards spaced evenly apart from each other*/
+	  .evenlySpaced{
+        margin:8px;
+      }
     </style>
     
-    <a href={{division}} style="text-decoration: none"> 
-      <paper-material class="displayInline width400">
+    <a href="/divisions" style="text-decoration: none">
+      <paper-material class="evenlySpaced displayInline width400 hieght200">   
       
-        <division-header division={{division}} image={{image}} color={{color}}></division-header>
-        
-        
+        <division-header on-click="configurePage" division={{division}} image={{image}} color={{color}}></division-header>
+            
         <!-- TODO Titles and styles need to be factored out -->
 		<score-visualization 
+		  id="automationScore"
 		  title="1-Click Deploy Enabled: 3/13&#013;Continuous Integration Enabled: 8/13" 
 		  name="Automation" 
 		  image="../images/automation.svg" 
+		  on-click="configurePage"
 		  style="color:red;">
 		</score-visualization>
 		
 		<score-visualization 
+		  id="deploymentScore"
 		  title="When we find data to put here tell John" 
 		  name="Deployment" 
 		  image="../images/deploy.svg" 
+		  on-click= "configurePage"
 		  style="color:green;">
-		</score-visualization>
+		</score-visualization>	
 		
 		<score-visualization 
+		  id="qualityScore"
 		  title="Mean Test Coverage: 20%&#013;Successful tests: 100%&#013;Mean Squale Score: B&#013;Complexity: 100?" 
 		  name="Quality" 
 		  image="../images/checkedBox.svg" 
+		  on-click= "configurePage"
 		  style="color:orange;">
 		</score-visualization>
-		
 	  </paper-material>
-	</a>
+	 </a>
   </template>
 </dom-module>
 <script>
-  (function() {
-    Polymer({
-      is: 'division-card'
-    });
-  })();
+  Polymer({
+    is: 'division-card',
+    configurePage: function(e){
+	  	//Here we set the tab, division, and icon color of the division-page we're navigating to based off of what was clicked
+	  	var id=null;//ID of calling element
+	  	var src=e.srcElement;//Possible calling element
+	  	
+	  	//If we are inside a score visualization the parents ID will tell us which section we are going to
+	  	if(src.id=="areaName"){
+	  		id=src.parentElement.id;
+	  	}
+	  	else{
+	  		//If we are inside an internal element of the score visualization we go up two levels to find what section we're in
+	  		id=src.parentElement.parentElement.id;
+	  	}
+	  	
+	  	//Go to the tab representing area clicked, if a specific area wasn't clicked go to the first tab
+	  	if(id.includes("quality")){
+	  		window.document.querySelector('paper-tabs').selected=2;
+	  	}
+	  	else if(id.includes("deployment")){
+	  		window.document.querySelector('paper-tabs').selected=1;
+	  	}
+	  	else{
+	  		window.document.querySelector('paper-tabs').selected=0;
+	  	}
+	  	
+	  	//When we navigate make sure the division is listed, the icon is retrieved, and the color is set
+	  	window.document.querySelector('division-page').color=this.color;
+	  	window.document.querySelector('division-page').division=this.division;
+    }
+  });
 </script>

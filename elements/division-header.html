@@ -1,7 +1,7 @@
 <dom-module id="division-header">
-  <template attributes="division image color">
+  <template attributes="division image color home">
     <style>
-      span.largeDivision{
+      span.largeDivisionText{
         font-size:30px;
         padding:5px;
       }
@@ -9,15 +9,31 @@
         margin-left:10px;
         margin:10px;
       }
+     .topPadded{margin-top:10px;}
+     .rightAligned{
+  		width: 6%; 
+  		float: right;
+  		margin-left:380px;
+	  }
     </style>
+    
     <div flex layout horizontal>
-      <iron-icon id={{division}} class="paddedIcon" src={{image}}></iron-icon><span class="largeDivision">{{division}}</span></br>
+      <!-- All of this content is on one line. The icon and text are left aligned, the home icon is right aligned -->
+      <iron-icon id={{division}} class="paddedIcon" src={{image}}></iron-icon>
+      <span class="largeDivisionText">{{division}}</span>
+      
+      <!-- This area allows a home icon to be passed in when the division header is used in the division page -->
+	  <div class="rightAligned topPadded">
+        <content ></content>
+	 </div>
     </div>
   </template>
   <script>
     Polymer({
       is: 'division-header',
       ready: function() {
+    	  //TODO Revise the way this styling is done
+    	  
     	  //Set the color of the iron-icons background to the value passed in
     	  this.children[1].children[0].style.backgroundColor=this.color;
     	  

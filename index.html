@@ -1,13 +1,3 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<link rel="import" href="../bower_components/polymer/polymer.html">
 <!doctype html>
 <html lang="">
 
@@ -17,7 +7,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="BOIS Sample Dashboard" />
   <title>BOIS Sample Dashboard</title>
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
   <!-- Chrome for Android theme color -->
   <meta name="theme-color" content="#303F9F">
@@ -42,23 +31,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- Tile icon for Win8 (144x144) -->
   <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
 
-  <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild-->
 
-  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <!-- endbuild -->
 
   <!-- will be replaced with elements/elements.vulcanized.html -->
   <link rel="import" href="elements/elements.html">
   <!-- endreplace-->
+  
+  <!-- TODO Factor out these imports -->
+  <link rel="import" href="../bower_components/chartjs/chart.js">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 
 <body unresolved class="fullbleed layout vertical">
   <style is="custom-style">
     .displayInline{display: inline;}
-	.big{--iron-icon-width:64px;}
 	
 	/* Modifies the way the header displays*/
 	paper-toolbar {
@@ -68,128 +56,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       --paper-toolbar-background: #F96302; /* changes the background to THD Orange*/
       --paper-toolbar-color: #000; /* changes the text color to black */
     }
+    .header{
+      display: block;
+      margin-left: auto;
+      margin-right: auto 
+    }
+    .centered {
+      position: absolute;
+      left: 15%;
+    }
   </style>
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
-
-    <paper-drawer-panel id="paperDrawerPanel" forceNarrow="true">
-      <div drawer>
-
-        <!-- Drawer Toolbar -->
-        <paper-toolbar id="drawerToolbar">
-          <span class="paper-font-title">Menu</span>
-        </paper-toolbar>
-
-        <!-- Drawer Content -->
-          <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-              <a data-route="home" href="/">
-                <iron-icon href="/assetProtection" icon="home"></iron-icon>
-                <span>Home</span>
-              </a>
-
-              <a href="/Asset Protection">
-                <iron-icon style="background-color:blue;" src="images/assetProtection.svg"></iron-icon>
-                <span>Asset Protection</span>
-              </a>
-
-              <a href="/Building Services">
-                <iron-icon style="background-color:purple;" src="images/buildingServices2.svg"></iron-icon>
-                <span>Building Services</span>
-              </a>
-              
-              <a href="/Customer Service">
-                <iron-icon style="background-color:green;" src="images/customerService2.svg"></iron-icon>
-                <span>Customer Service</span>
-              </a>
-              
-              <a data-route="Repair" href="/Repair">
-                <iron-icon style="background-color:yellow;" src="images/repair2.svg"></iron-icon>
-                <span>Repair</span>
-              </a>
-              
-              <a data-route="Reverse Logistics" href="/Reverse Logistics">
-                <iron-icon style="background-color:orange;" src="images/reverseLogistics2.svg"></iron-icon>
-                <span>Reverse Logistics</span>
-              </a>
-              
-              <a data-route="Store Device Platform" href="/Store Device Platform">
-                <iron-icon style="background-color:pink;" src="images/StoreDevicePlatform.svg"></iron-icon>
-                <span>Store Device Platform</span>
-              </a>
-              
-              <a data-route="Store Inventory" href="/Store Inventory">
-                <iron-icon style="background-color:red;" src="images/storeInventory2.svg"></iron-icon>
-                <span>Store Inventory</span>
-              </a>
-              
-              <a data-route="Store Merchandising" href="/Store Merchandising">
-                <iron-icon style="background-color:teal;" src="images/storeMerchandising2.svg"></iron-icon>
-                <span>Store Merchandising</span>
-              </a>
-          </paper-menu>
-      </div>
-      <paper-header-panel main mode="waterfall-tall">
-
-        <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar">
-          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
-
-          <!-- Application name -->
-          <div class="paper-font-display2 app-name">BOIS Dashboard</div>
-
-          <!-- Application sub title -->
-          <div class="bottom title"></div>
-
+          <div class="paper-font-display2 app-name header">BOIS Dashboard</div>
         </paper-toolbar>
 
-        <!-- Main Content -->
-        <div class="content">
+        <div class="content centered">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="home">
-               <division-card-list></division-card-list>
+            <section class="active" data-route="home">
+              <division-card-list selected={{selected}}></division-card-list>             
             </section>
-
-             <section data-route="Asset Protection">
-                <division-page division="Asset Protection" color="blue"></division-page>
-            </section>
-
-            <section data-route="Building Services">
-              <division-page division="Building Services" color="purple"></division-page>
-            </section>
-
-            <section data-route="Customer Service">
-              <division-page  division="Customer Service" color="green"></division-page>
-            </section>
-
-            <section data-route="Repair">
-              <division-page division="Repair" color="yellow"></division-page>
-            </section>
-    		
-    		<section data-route="Reverse Logistics">
-    			<division-page division="Reverse Logistics" color="orange"></division-page>
-            </section>
-            
-            <section data-route="Store Device Platform">
-            	<division-page division="Store Device Platform" color="pink"></division-page>
-            </section>
-            
-            <section data-route="Store Inventory">
-            	<division-page division="Building Services" color="red"></division-page>
-            </section>
-            
-            <section data-route="Store Merchandising">
-            	<division-page division="Store Merchandising" color="teal"></division-page>
+            <section data-route="divisions">
+              <!-- TODO center this page better -->
+              <division-page division="Asset Protection" color="blue" selected=0></division-page>
             </section>
           </iron-pages>
         </div>
-      </paper-header-panel>
-    </paper-drawer-panel>
 
   </template>
-
-  <!-- build:js scripts/app.js -->
+  
   <script src="scripts/app.js"></script>
-  <!-- endbuild-->
-</body>
 
+</body>
 </html>
