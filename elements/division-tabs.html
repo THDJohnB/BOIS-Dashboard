@@ -1,8 +1,12 @@
 <link rel="import" href="score-visualization.html">
 <link rel="import" href="../bower_components/google-chart/google-chart.html">
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+
+<!-- Remove this comment to try D3 charts, expect graphical issues
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <link rel="import" href="pie-chart.html">
+
+-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
 <script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon-chart.js"></script>
@@ -51,7 +55,9 @@
   	  <div>
   	    <paper-material>
   	      <p>This is a D3 chart attempt.</p>
-  	      <pie-chart url="data.csv"></pie-chart>
+  	      <!-- Uncomment this to attempt D3 charts 
+  	        <pie-chart url="data.csv"></pie-chart>  
+  	      -->
   	    </paper-material>
   	  </div>
 	</iron-pages>
